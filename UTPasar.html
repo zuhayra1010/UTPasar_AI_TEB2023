@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>UTPasar</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Bricolage+Grotesque:wght@400;600&display=swap">
+<style>
+:root{--page:#cbbcff;--card:#fff;--ink:#1c1535;--mute:#5b5478;--line:#e1daf5;--input:#f4f1ff;--chip:#ebe5ff;--btn:#1c1535;--btnInk:#fff;--yel:#f7e04b;--warn:#fff1c7;--warnInk:#5c4200;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--page:#231c3f;--card:#2e2552;--ink:#f2eeff;--mute:#b9b0dc;--line:#433870;--input:#261f47;--chip:#3a3063;--btn:#f7e04b;--btnInk:#1c1535;--warn:#3a2f0c;--warnInk:#f3d98a;color-scheme:dark}}
+:root[data-theme="dark"]{--page:#231c3f;--card:#2e2552;--ink:#f2eeff;--mute:#b9b0dc;--line:#433870;--input:#261f47;--chip:#3a3063;--btn:#f7e04b;--btnInk:#1c1535;--warn:#3a2f0c;--warnInk:#f3d98a;color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--page);color:var(--ink);font-family:"Bricolage Grotesque",system-ui,-apple-system,"Segoe UI",sans-serif;line-height:1.5;--sky:#f6a9d4;--blob:#e8572a}
+body[data-tab="post"],body[data-tab="signup"]{--sky:#f4e04d;--blob:#2b9a5c}
+body[data-tab="about"]{--sky:#ffd1a8;--blob:#4a5be0}
+.phone{max-width:430px;margin:0 auto;background:var(--card);overflow:hidden}
+@media (min-width:600px){.phone{margin:24px auto;border:10px solid #1b1630;border-radius:46px;box-shadow:0 24px 60px rgba(28,21,53,.35)}}
+.hero{position:relative;background:var(--blob);color:#fff;padding:0 18px 20px;text-align:center}
+.hero::before{content:"";position:absolute;left:0;right:0;top:0;height:170px;background:var(--sky)}
+.hero>*{position:relative}
+.awning{margin:0 -18px}
+.awning svg{display:block;width:100%;height:34px}
+.top{display:flex;justify-content:space-between;align-items:center;padding-top:8px}
+.brand{font-family:Anton,Impact,sans-serif;font-size:1.4rem;color:#1c1535;letter-spacing:.01em}
+.tag{display:inline-block;background:var(--yel);color:#1c1535;border-radius:99px;padding:3px 11px;font-size:.8rem;font-weight:600}
+.blob{display:block;width:76%;max-width:300px;margin:4px auto -2px}
+h1{font-family:Anton,Impact,sans-serif;font-weight:400;font-size:clamp(2.4rem,11vw,3.2rem);line-height:1.02;text-transform:uppercase;margin:4px 0 6px}
+.date{font-weight:600;margin:0 0 14px}
+nav{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+button{font:inherit}
+nav button{font-weight:600;border:0;border-radius:14px;padding:10px 16px;background:rgba(255,255,255,.25);color:#fff;cursor:pointer}
+nav button[aria-selected="true"]{background:var(--yel);color:#1c1535}
+button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid var(--blob);outline-offset:2px}
+.content{padding:18px 16px 40px;background:var(--card)}
+.panel{background:var(--input);border-radius:22px;padding:16px;margin-bottom:14px}
+h2{font-size:1.15rem;margin:0 0 10px;font-weight:600}
+.pills{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
+.pill{border:0;border-radius:14px;padding:9px 14px;background:var(--chip);color:var(--ink);font-weight:600;cursor:pointer}
+.pill[aria-pressed="true"]{background:var(--yel);color:#1c1535}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media (max-width:520px){.grid{grid-template-columns:1fr}}
+.full{grid-column:1/-1}
+label{display:block;font-size:.9rem;font-weight:600;margin-bottom:4px}
+input,select,textarea{width:100%;font:inherit;color:var(--ink);background:var(--card);border:2px solid var(--line);border-radius:14px;padding:9px 12px}
+textarea{min-height:70px;resize:vertical}
+.btn{background:var(--btn);color:var(--btnInk);border:0;border-radius:14px;padding:12px 20px;font-weight:600;cursor:pointer;margin:12px 8px 0 0}
+.btn.alt{background:var(--yel);color:#1c1535}
+.item{display:flex;gap:12px;padding:14px 0;border-top:2px dashed var(--line)}
+.item:first-child{border-top:0}
+.pic{flex:0 0 54px;height:54px;border-radius:50%;background:var(--blob);color:#fff;display:flex;align-items:center;justify-content:center;font-family:Anton,Impact,sans-serif;font-size:1.5rem}
+.info{flex:1;min-width:0}
+.name{font-weight:600}
+.meta{color:var(--mute);font-size:.88rem}
+.chips span{display:inline-block;background:var(--chip);border-radius:99px;padding:1px 10px;font-size:.8rem;margin:4px 6px 0 0}
+.score{text-align:right;flex:0 0 76px}
+.score b{font-family:Anton,Impact,sans-serif;font-weight:400;font-size:1.9rem;line-height:1}
+.bar{height:8px;background:var(--line);border-radius:4px;margin-top:4px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--blob)}
+.why{font-size:.8rem;color:var(--mute);margin-top:6px}
+table{width:100%;border-collapse:collapse;font-size:.92rem}
+th,td{text-align:left;padding:10px 6px;border-top:2px dashed var(--line);vertical-align:top}
+th{font-weight:600}
+.note{font-size:.84rem;color:var(--mute);margin-top:10px}
+.msg{background:var(--warn);color:var(--warnInk);border-radius:14px;padding:10px 12px;margin-top:12px;font-size:.92rem}
+
+.cards{display:grid;grid-template-columns:1fr 1fr;gap:16px 12px;margin-top:10px}
+.card{background:none;border:0;padding:0;text-align:left;cursor:pointer;color:inherit;font:inherit;width:100%}
+.ph{position:relative;aspect-ratio:1/1;border-radius:18px;overflow:hidden;background:var(--chip)}
+.ph svg,.ph img,.dp svg,.dp img{display:block;width:100%;height:100%;object-fit:cover}
+.ago{position:absolute;left:8px;top:8px;background:rgba(28,21,53,.7);color:#fff;border-radius:99px;padding:1px 9px;font-size:.78rem}
+.best{position:absolute;left:8px;bottom:8px;background:var(--yel);color:#1c1535;border-radius:99px;padding:1px 9px;font-size:.78rem;font-weight:600}
+.cn{font-weight:600;margin-top:8px;line-height:1.3;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.cp{font-weight:600;font-size:1.05rem}
+.cs{display:flex;align-items:center;gap:6px;color:var(--mute);font-size:.88rem}
+.av{width:20px;height:20px;border-radius:50%;background:var(--blob);color:#fff;font-size:.7rem;display:inline-flex;align-items:center;justify-content:center;font-weight:600}
+.rh{display:flex;justify-content:space-between;align-items:center;gap:8px}
+dialog{border:0;border-radius:26px;padding:0;width:min(92vw,400px);max-height:90vh;background:var(--card);color:var(--ink);overflow:auto}
+dialog::backdrop{background:rgba(28,21,53,.6)}
+.dp{position:relative;aspect-ratio:1/1}
+.db{padding:16px}
+.dx{position:absolute;right:10px;top:10px;border:0;border-radius:50%;width:38px;height:38px;background:var(--card);color:var(--ink);font-size:1.3rem;cursor:pointer}
+.det{margin:10px 0;padding:0;list-style:none}
+.det li{padding:7px 0;border-top:2px dashed var(--line);display:flex;justify-content:space-between;gap:12px}
+.det span{color:var(--mute)}
+.mt{background:var(--input);border-radius:16px;padding:12px;margin:12px 0}
+.mt b{font-family:Anton,Impact,sans-serif;font-weight:400;font-size:1.6rem}
+[hidden]{display:none!important}
+button.tag{border:0;cursor:pointer;font:inherit;font-weight:600;font-size:.8rem}
+</style>
+</head>
+<body data-tab="login">
+<div class="phone">
+<header class="hero">
+<div class="awning" aria-hidden="true"><svg viewBox="0 0 560 34" preserveAspectRatio="none"><defs><pattern id="sc" width="56" height="34" patternUnits="userSpaceOnUse"><rect width="28" height="20" fill="#e8452c"/><circle cx="14" cy="20" r="14" fill="#e8452c"/><rect x="28" width="28" height="20" fill="#fff4dc"/><circle cx="42" cy="20" r="14" fill="#fff4dc"/></pattern></defs><rect width="560" height="34" fill="url(#sc)"/></svg></div>
+<div class="top"><span class="brand">UTPasar</span><button class="tag" id="out" hidden>Log out</button></div>
+<svg class="blob" viewBox="0 0 300 210" role="img" aria-label="Friendly market vendor character wearing a striped cap"><defs><pattern id="st" width="24" height="24" patternUnits="userSpaceOnUse"><rect width="12" height="24" fill="#e8452c"/><rect x="12" width="12" height="24" fill="#fff4dc"/></pattern></defs><path d="M10 210C10 70 80 20 150 20S290 70 290 210Z" style="fill:var(--blob)"/><path d="M42 84Q150 48 258 84L252 112Q150 78 48 112Z" fill="url(#st)"/><ellipse cx="112" cy="146" rx="27" ry="31" fill="#fff"/><ellipse cx="188" cy="146" rx="27" ry="31" fill="#fff"/><circle cx="112" cy="150" r="15" fill="#1c1535"/><circle cx="188" cy="150" r="15" fill="#1c1535"/><rect x="133" y="190" width="34" height="14" rx="7" fill="#1c1535"/></svg>
+<h1 id="ht">Welcome back</h1>
+<p class="date" id="dt"></p>
+<nav id="navAuth" role="tablist" aria-label="Account">
+<button role="tab" aria-selected="true" data-tab="login">Log in</button>
+<button role="tab" aria-selected="false" data-tab="signup">Sign up</button>
+</nav>
+<nav id="navApp" role="tablist" aria-label="Sections" hidden>
+<button role="tab" aria-selected="true" data-tab="find">Find items</button>
+<button role="tab" aria-selected="false" data-tab="post">Post an item</button>
+</nav>
+</header>
+<main class="content">
+<section id="login">
+<div class="panel"><h2>Log in</h2>
+<div class="grid">
+<div class="full"><label for="lu">Username</label><input id="lu" autocomplete="username"></div>
+<div class="full"><label for="lp">Password</label><input id="lp" type="password" autocomplete="current-password"></div>
+</div>
+<button class="btn" id="lg">Log in</button>
+<div class="msg" id="lm" hidden></div>
+</div>
+</section>
+<section id="signup" hidden>
+<div class="panel"><h2>Create your account</h2>
+<p class="meta">For UTP students only. We use your student ID to verify your account.</p>
+<div class="grid">
+<div class="full"><label for="si">Student ID</label><input id="si" inputmode="numeric" placeholder="numbers only"></div>
+<div class="full"><label for="su">Username</label><input id="su" placeholder="shown on your listings" autocomplete="off"></div>
+<div class="full"><label for="sp">Password</label><input id="sp" type="password" autocomplete="new-password"></div>
+<div class="full"><label for="scard">Photo of your student card</label><input id="scard" type="file" accept="image/*"></div>
+</div>
+<button class="btn" id="sb">Sign up</button>
+<div class="msg" id="sm" hidden></div>
+</div>
+</section>
+<section id="find" hidden>
+<div class="panel">
+<h2>Pick a category</h2>
+<div class="pills" id="cc"></div><select id="fc" hidden></select>
+<div class="grid">
+<div class="full"><label for="q">Describe the item</label><input id="q" placeholder="for example: small fan for my room"></div>
+<div><label for="fb">Maximum budget (RM)</label><input id="fb" type="number" min="0" placeholder="leave empty for any"></div>
+<div><label for="fk">Condition</label><select id="fk"><option>Any</option><option>New</option><option>Good</option><option>Used</option></select></div>
+<div class="full"><label for="fv">Your village</label><select id="fv"></select></div>
+</div>
+<button class="btn" id="go">Find matches</button>
+</div>
+<div class="panel"><div class="rh"><h2 id="rt">Listings on UTPasar</h2><button class="pill" id="all" hidden>Show all</button></div><div class="cards" id="res"></div></div>
+</section>
+<section id="post" hidden>
+<div class="panel">
+<h2>List an item</h2>
+<div class="grid">
+<div class="full"><label for="pn">Item name</label><input id="pn" placeholder="for example: rice cooker"></div>
+<div class="full"><label for="pd">Description</label><textarea id="pd" placeholder="Condition, size, anything the buyer should know"></textarea></div>
+<div class="full"><label for="pf">Photo (optional)</label><input id="pf" type="file" accept="image/*"></div>
+<div><label for="pc">Category</label><select id="pc"></select></div>
+<div><label for="pp">Price (RM, 0 for free)</label><input id="pp" type="number" min="0" value="0"></div>
+<div><label for="pk">Condition</label><select id="pk"><option>New</option><option selected>Good</option><option>Used</option></select></div>
+<div><label for="pv">Your village</label><select id="pv"></select></div>
+</div>
+<button class="btn alt" id="sug">Get suggestions</button><button class="btn" id="add">Add listing</button>
+<div class="msg" id="pm" hidden></div>
+
+</div>
+</section>
+</main>
+</div>
+
+<dialog id="dlg" aria-label="Item details"></dialog>
+<script>
+var CATS=["Books and notes","Stationery","Fans and appliances","Kitchenware","Clothes","Bedding and storage"];
+var VIL=["Village 1","Village 2","Village 3","Village 4","Village 5"];
+var L=[
+{n:"Desk fan, 16 inch",d:"Table fan with three speeds. Works well, slightly dusty. I am moving out this week.",c:CATS[2],p:15,k:"Good",v:"Village 3",s:"nadia.v3",a:1},
+{n:"Electric kettle",d:"1.5 litre electric kettle with auto shut off. Cleaned and descaled.",c:CATS[2],p:10,k:"Good",v:"Village 2",s:"aiman.v2",a:2},
+{n:"Standing fan",d:"Standing fan with adjustable height. Needs pickup from my room.",c:CATS[2],p:20,k:"Used",v:"Village 1",s:"iqbal_rc",a:5},
+{n:"Calculus textbook",d:"Engineering calculus textbook with some highlighted pages.",c:CATS[0],p:0,k:"Used",v:"Village 1",s:"hakim_notes",a:3},
+{n:"Programming notes bundle",d:"Printed notes and past year papers for programming courses.",c:CATS[0],p:0,k:"Good",v:"Village 4",s:"syaz.v4",a:0},
+{n:"Pot and pan set",d:"Non stick cooking pot and frying pan with light scratches.",c:CATS[3],p:20,k:"Used",v:"Village 3",s:"farah.thrifts",a:7},
+{n:"Rice cooker",d:"Small 1 litre rice cooker for one or two people.",c:CATS[3],p:25,k:"Good",v:"Village 5",s:"amirah.v5",a:2},
+{n:"Storage box with lid",d:"Large plastic storage box, good for moving out.",c:CATS[5],p:5,k:"Good",v:"Village 2",s:"dani.v2",a:4},
+{n:"Single bedsheet set",d:"Washed bedsheet and pillowcase for a single bed.",c:CATS[5],p:8,k:"Good",v:"Village 1",s:"aiman.v1",a:6},
+{n:"Pen and highlighter pack",d:"Unused pens, highlighters and sticky notes.",c:CATS[1],p:3,k:"New",v:"Village 4",s:"syaz.v4",a:1},
+{n:"Scientific calculator",d:"Scientific calculator, all buttons work. Battery included.",c:CATS[1],p:20,k:"Good",v:"Village 3",s:"nadia.v3",a:9},
+{n:"Red Baju kurung",d:"Medium size baju kurung, worn twice.",c:CATS[4],p:12,k:"Good",v:"Village 5",s:"amirah.v5",a:3}
+];
+var STOP=new Set("a an and the for of to in on is are with my me i it at or very some".split(" "));
+function stem(w){return w.length>4?w.replace(/(ing|ed|es|s)$/,""):w}
+function tok(s){return s.toLowerCase().split(/[^a-z0-9]+/).filter(function(w){return w&&!STOP.has(w)}).map(stem)}
+function txt(i){return i.n+" "+i.d+" "+i.c}
+function idfMap(){var df={};L.forEach(function(i){new Set(tok(txt(i))).forEach(function(t){df[t]=(df[t]||0)+1})});var m={};for(var t in df)m[t]=Math.log((L.length+1)/(df[t]+1))+1;return m}
+function vec(ts,idf){var v={},n=ts.length||1;ts.forEach(function(t){v[t]=(v[t]||0)+1/n});for(var t in v)v[t]*=(idf[t]||Math.log(L.length+1)+1);return v}
+function cos(a,b){var d=0,x=0,y=0,t;for(t in a){x+=a[t]*a[t];if(b[t])d+=a[t]*b[t]}for(t in b)y+=b[t]*b[t];return x&&y?d/Math.sqrt(x*y):0}
+var KO=["New","Good","Used"];
+function score(f,i,idf){
+var q=tok(f.q),ts=q.length?cos(vec(q,idf),vec(tok(txt(i)),idf)):null;
+var cs=f.c==="Any"||f.c===i.c?1:0;
+if(ts===null)ts=cs;
+var ps=1;if(f.b!==""&&i.p>+f.b)ps=Math.max(0,1-(i.p-+f.b)/Math.max(+f.b,1));
+var ks=1;if(f.k!=="Any"){var g=Math.abs(KO.indexOf(f.k)-KO.indexOf(i.k));ks=g===0?1:g===1?.5:0}
+var vs=f.v==="Any"||f.v===i.v?1:.5;
+var tot=.35*ts+.25*cs+.2*ps+.1*ks+.1*vs;
+return {tot:tot,ts:ts,cs:cs,ps:ps,ks:ks,vs:vs}}
+function esc(s){var d=document.createElement("div");d.textContent=s;return d.innerHTML}
+function fill(id,arr,any){var e=document.getElementById(id);e.innerHTML=(any?"<option>Any</option>":"")+arr.map(function(a){return "<option>"+a+"</option>"}).join("")}
+fill("fc",CATS,true);fill("fv",VIL,true);fill("pc",CATS,false);fill("pv",VIL,false);
+function why(s){var r=[];if(s.ts>=.5)r.push("item text fits");if(s.cs)r.push("same category");if(s.ps>=1)r.push("within budget");else if(s.ps>0)r.push("slightly over budget");if(s.ks>=1)r.push("condition matches");if(s.vs>=1)r.push("same village");return r.join(", ")||"weak fit"}
+var LF=null;
+var IL={"Fans and appliances":["#5bb6f2",'<circle cx="50" cy="45" r="28" fill="none" stroke="#fff" stroke-width="5"/><g fill="#fff"><ellipse cx="50" cy="30" rx="6" ry="13"/><ellipse cx="50" cy="30" rx="6" ry="13" transform="rotate(120 50 45)"/><ellipse cx="50" cy="30" rx="6" ry="13" transform="rotate(240 50 45)"/></g><rect x="46" y="73" width="8" height="14" fill="#fff"/><rect x="34" y="86" width="32" height="5" rx="2" fill="#fff"/>'],
+"Books and notes":["#ff8a5b",'<rect x="22" y="60" width="56" height="14" rx="2" fill="#fff"/><rect x="28" y="44" width="48" height="14" rx="2" fill="#ffe27a"/><rect x="24" y="28" width="52" height="14" rx="2" fill="#fff"/>'],
+"Stationery":["#3fae6b",'<g transform="rotate(-45 50 50)"><rect x="18" y="42" width="52" height="16" fill="#fff"/><polygon points="70,42 88,50 70,58" fill="#ffe27a"/><rect x="12" y="42" width="8" height="16" fill="#ff9aa8"/></g>'],
+"Kitchenware":["#f26d9a",'<rect x="24" y="44" width="52" height="34" rx="6" fill="#fff"/><rect x="16" y="48" width="9" height="6" fill="#fff"/><rect x="75" y="48" width="9" height="6" fill="#fff"/><rect x="28" y="36" width="44" height="7" rx="3" fill="#ffe27a"/>'],
+"Clothes":["#8a6cf0",'<path d="M34 24L22 36L32 46L38 41V78H62V41L68 46L78 36L66 24Q50 34 34 24Z" fill="#fff"/>'],
+"Bedding and storage":["#f0b429",'<rect x="20" y="40" width="60" height="38" rx="4" fill="#fff"/><rect x="16" y="32" width="68" height="12" rx="3" fill="#ff8a5b"/><rect x="42" y="52" width="16" height="5" rx="2" fill="#bbb"/>']};
+function pic(i){if(i.img)return '<img src="'+i.img+'" alt="'+esc(i.n)+'">';var t=IL[i.c];return '<svg viewBox="0 0 100 100" role="img" aria-label="'+esc(i.n)+' illustration"><rect width="100" height="100" fill="'+t[0]+'"/>'+t[1]+'</svg>'}
+function ago(a){return a===0?"Today":a===1?"1 day ago":a<7?a+" days ago":Math.round(a/7)+"w ago"}
+function price(i){return i.p===0?"Free":"RM "+i.p}
+function seller(i){return '<span class="av">'+esc(i.s.charAt(0).toUpperCase())+'</span>'+esc(i.s)}
+function render(search){
+var f={q:document.getElementById("q").value,c:document.getElementById("fc").value,b:document.getElementById("fb").value,k:document.getElementById("fk").value,v:document.getElementById("fv").value};
+var idf=idfMap(),rs;
+if(search){LF=f;rs=L.map(function(i,ix){return {i:i,ix:ix,s:score(f,i,idf)}}).sort(function(a,b){return b.s.tot-a.s.tot})}
+else{LF=null;rs=L.map(function(i,ix){return {i:i,ix:ix,s:null}}).sort(function(a,b){return a.i.a-b.i.a})}
+document.getElementById("rt").textContent=search?"Best matches for you":"Listings on UTPasar";
+document.getElementById("all").hidden=!search;
+var h=search&&rs[0].s.tot<.45?'<p class="msg" style="grid-column:1/-1">No strong match yet. Try a broader category or a higher budget. Showing the closest listings.</p>':"";
+h+=rs.map(function(r,n){var i=r.i,top=search&&n<3&&r.s.tot>=.45;
+return '<button class="card" data-i="'+r.ix+'"><div class="ph">'+pic(i)+'<span class="ago">'+ago(i.a)+'</span>'+(top?'<span class="best">Top match</span>':"")+'</div><div class="cn">'+esc(i.n)+'</div><div class="cp">'+price(i)+'</div><div class="cs">'+seller(i)+'</div></button>'}).join("");
+document.getElementById("res").innerHTML=h}
+function openItem(ix){var i=L[ix],d=document.getElementById("dlg"),m="";
+if(LF){var s=score(LF,i,idfMap()),p=Math.round(s.tot*100);m='<div class="mt">Match for your search: <b>'+p+'%</b><div class="bar"><i style="width:'+p+'%"></i></div><div class="why">Why: '+why(s)+'</div></div>'}
+d.innerHTML='<div class="dp">'+pic(i)+'<button class="dx" id="dxb" aria-label="Close">&times;</button></div><div class="db"><div class="cp">'+price(i)+'</div><h2>'+esc(i.n)+'</h2><div class="cs">'+seller(i)+'</div><ul class="det"><li><span>Posted</span>'+ago(i.a)+'</li><li><span>Village</span>'+esc(i.v)+'</li><li><span>Condition</span>'+esc(i.k)+'</li><li><span>Category</span>'+esc(i.c)+'</li></ul><p>'+esc(i.d)+'</p>'+m+'<button class="btn" id="msg">Message seller</button><p class="note" id="mn">Meet at a public place on campus.</p>'+'</div>';
+d.showModal();
+document.getElementById("dxb").onclick=function(){d.close()};
+document.getElementById("msg").onclick=function(){document.getElementById("mn").textContent="Message sent. Meet at a public place on campus."}}
+document.getElementById("go").onclick=function(){render(true)};
+var KW={"Fans and appliances":"fan kettle cooker heater iron lamp appliance blender","Books and notes":"book textbook notes paper reference novel","Stationery":"pen pencil calculator highlighter ruler stapler","Kitchenware":"pot pan plate cup bowl spoon cooker kitchen","Clothes":"shirt dress baju kurung jacket pants clothes","Bedding and storage":"bed sheet pillow blanket box storage mattress"};
+function suggest(){
+var t=tok(document.getElementById("pn").value+" "+document.getElementById("pd").value),best="",bs=0;
+CATS.forEach(function(c){var k=tok(KW[c]),n=t.filter(function(w){return k.indexOf(w)>-1}).length;if(n>bs){bs=n;best=c}});
+var m=document.getElementById("pm");m.hidden=false;
+if(!best){m.textContent="No category suggestion yet. Add more detail to the name or description.";return}
+document.getElementById("pc").value=best;
+var k=document.getElementById("pk").value,same=L.filter(function(i){return i.c===best&&i.k===k}),pool=same.length?same:L.filter(function(i){return i.c===best});
+var avg=pool.length?Math.round(pool.reduce(function(a,i){return a+i.p},0)/pool.length):null;
+m.textContent="Suggested category: "+best+". "+(avg===null?"No price suggestion yet for this item.":"Suggested price: about RM "+avg+", based on "+pool.length+" similar listing"+(pool.length>1?"s":"")+".")}
+document.getElementById("sug").onclick=suggest;
+document.getElementById("add").onclick=function(){
+var n=document.getElementById("pn").value.trim(),m=document.getElementById("pm");m.hidden=false;
+if(!n){m.textContent="Enter an item name first.";return}
+L.push({n:n,d:document.getElementById("pd").value.trim()||"No description",c:document.getElementById("pc").value,p:Math.max(0,+document.getElementById("pp").value||0),k:document.getElementById("pk").value,v:document.getElementById("pv").value,s:ME||"you",a:0,img:PH});PH=null;document.getElementById("pf").value="";render();
+m.textContent="Your listing is live.";
+document.getElementById("pn").value="";document.getElementById("pd").value=""};
+var HT={login:"Welcome back",signup:"Join the pasar",find:"What are you hunting for today?",post:"What are you passing on?"};
+var ME="";
+function val(id){return document.getElementById(id).value.trim()}
+function show(t){document.body.dataset.tab=t;document.getElementById("ht").textContent=HT[t];
+["login","signup","find","post"].forEach(function(s){document.getElementById(s).hidden=s!==t});
+document.querySelectorAll("nav button").forEach(function(x){x.setAttribute("aria-selected",x.dataset.tab===t)})}
+document.querySelectorAll("nav button").forEach(function(b){b.onclick=function(){show(b.dataset.tab)}});
+document.getElementById("lg").onclick=function(){var u=val("lu"),m=document.getElementById("lm");
+if(!u||!val("lp")){m.hidden=false;m.textContent="Enter your username and password.";return}
+ME=u;m.hidden=true;document.getElementById("navAuth").hidden=true;document.getElementById("navApp").hidden=false;document.getElementById("out").hidden=false;show("find")};
+document.getElementById("out").onclick=function(){ME="";document.getElementById("lp").value="";document.getElementById("navAuth").hidden=false;document.getElementById("navApp").hidden=true;this.hidden=true;show("login")};
+document.getElementById("sb").onclick=function(){var m=document.getElementById("sm"),b=this;m.hidden=false;
+if(!val("si")||!val("su")||!val("sp")||!document.getElementById("scard").files.length){m.textContent="Fill in every field and attach a photo of your student card.";return}
+if(!/^\d{6,10}$/.test(val("si"))){m.textContent="Enter a valid student ID (numbers only).";return}
+b.disabled=true;m.textContent="Thanks. An admin will review your account shortly.";
+setTimeout(function(){m.innerHTML='Your account has been approved. You can log in now. <button class="pill" id="gl">Log in</button>';
+document.getElementById("gl").onclick=function(){document.getElementById("lu").value=val("su");b.disabled=false;show("login")}},4000)};
+document.getElementById("dt").textContent=new Date().toLocaleDateString("en-GB",{day:"numeric",month:"long"});
+var cc=document.getElementById("cc");
+["Any"].concat(CATS).forEach(function(c,ix){var b=document.createElement("button");b.className="pill";b.textContent=c;b.setAttribute("aria-pressed",ix===0);b.onclick=function(){document.getElementById("fc").value=c;cc.querySelectorAll("button").forEach(function(x){x.setAttribute("aria-pressed",x===b)});render(true)};cc.appendChild(b)});
+var PH=null;
+document.getElementById("pf").onchange=function(e){var f=e.target.files[0];if(!f){PH=null;return}var r=new FileReader();r.onload=function(){PH=r.result};r.readAsDataURL(f)};
+document.getElementById("res").addEventListener("click",function(e){var c=e.target.closest(".card");if(c)openItem(+c.dataset.i)});
+document.getElementById("all").onclick=function(){render()};
+document.getElementById("dlg").addEventListener("click",function(e){if(e.target===this)this.close()});
+render();
+</script>
+</body>
+</html>
