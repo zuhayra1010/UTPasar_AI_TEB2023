@@ -23,7 +23,8 @@ body[data-tab="about"],body[data-tab="mine"]{--sky:#ffd1a8;--blob:#4a5be0}
 .awning{margin:0 -18px}
 .awning svg{display:block;width:100%;height:34px}
 .top{display:flex;justify-content:space-between;align-items:center;padding-top:8px}
-.brand{font-family:Anton,Impact,sans-serif;font-size:1.4rem;color:#1c1535;letter-spacing:.01em}
+.brand{display:inline-flex;align-items:center;gap:2px;font-family:Anton,Impact,sans-serif;font-size:1.4rem;color:#1c1535;letter-spacing:.01em}
+.logo{height:2.2rem;width:auto;display:block}
 .tag{display:inline-block;background:var(--yel);color:#1c1535;border-radius:99px;padding:3px 11px;font-size:.8rem;font-weight:600}
 .blob{display:block;width:76%;max-width:300px;margin:4px auto -2px}
 h1{font-family:Anton,Impact,sans-serif;font-weight:400;font-size:clamp(2.4rem,11vw,3.2rem);line-height:1.02;text-transform:uppercase;margin:4px 0 6px}
@@ -101,7 +102,7 @@ button.tag{border:0;cursor:pointer;font:inherit;font-weight:600;font-size:.8rem}
 <div class="phone">
 <header class="hero">
 <div class="awning" aria-hidden="true"><svg viewBox="0 0 560 34" preserveAspectRatio="none"><defs><pattern id="sc" width="56" height="34" patternUnits="userSpaceOnUse"><rect width="28" height="20" fill="#e8452c"/><circle cx="14" cy="20" r="14" fill="#e8452c"/><rect x="28" width="28" height="20" fill="#fff4dc"/><circle cx="42" cy="20" r="14" fill="#fff4dc"/></pattern></defs><rect width="560" height="34" fill="url(#sc)"/></svg></div>
-<div class="top"><span class="brand">UTPasar</span><button class="tag" id="out" hidden>Log out</button></div>
+<div class="top"><span class="brand"><img class="logo" src="logoUTPasar.png" alt="">UTPasar</span><button class="tag" id="out" hidden>Log out</button></div>
 <svg class="blob" viewBox="0 -14 300 224" role="img" aria-label="Friendly market vendor character"><path d="M10 210C10 70 80 20 150 20S290 70 290 210Z" style="fill:var(--blob)"/><path d="M150 22Q148 10 146 2" fill="none" stroke="#2b7a4b" stroke-width="4" stroke-linecap="round"/><ellipse cx="136" cy="2" rx="11" ry="5.5" transform="rotate(-22 136 2)" fill="#3fae6b"/><ellipse cx="158" cy="5" rx="11" ry="5.5" transform="rotate(22 158 5)" fill="#3fae6b"/><ellipse cx="72" cy="178" rx="14" ry="9" fill="#ff8fb1" opacity=".85"/><ellipse cx="228" cy="178" rx="14" ry="9" fill="#ff8fb1" opacity=".85"/><g id="eyes"><g class="eye"><ellipse cx="112" cy="146" rx="27" ry="31" fill="#fff"/><g id="p1"><circle cx="112" cy="150" r="15" fill="#1c1535"/><circle cx="118" cy="144" r="4.5" fill="#fff"/></g></g><g class="eye"><ellipse cx="188" cy="146" rx="27" ry="31" fill="#fff"/><g id="p2"><circle cx="188" cy="150" r="15" fill="#1c1535"/><circle cx="194" cy="144" r="4.5" fill="#fff"/></g></g></g><g id="joy" style="display:none" fill="none" stroke="#1c1535" stroke-width="9" stroke-linecap="round"><path d="M86 154Q112 118 138 154"/><path d="M162 154Q188 118 214 154"/></g><path id="mo" d="M120 184Q150 218 180 184Z" fill="#1c1535"/></svg>
 <h1 id="ht">Welcome back</h1>
 <p class="date" id="dt"></p>
@@ -270,7 +271,26 @@ m.textContent="Your listing is live.";
 document.getElementById("pn").value="";document.getElementById("pd").value=""};
 var HT={login:"Welcome back",signup:"Join the pasar",find:"What are you hunting for today?",post:"What are you passing on?",mine:"Your pasar stall"};
 var FACE={login:{m:"M120 184Q150 218 180 184Z"},signup:{m:"M140 190a10 12 0 1 0 20 0a10 12 0 1 0-20 0Z",y:-8},find:{m:"M133 190h34a7 7 0 0 1 0 14h-34a7 7 0 0 1 0-14Z",x:9,y:-4},post:{m:"M112 184Q150 224 188 184Z",joy:1},mine:{m:"M120 184Q150 218 180 184Z",x:-6,y:4}};
-function face(t){var f=FACE[t];document.getElementById("mo").setAttribute("d",f.m);document.getElementById("eyes").style.display=f.joy?"none":"";document.getElementById("joy").style.display=f.joy?"":"none";["p1","p2"].forEach(function(id){document.getElementById(id).setAttribute("transform","translate("+(f.x||0)+" "+(f.y||0)+")")})}
+var BASE=[0,0],PT=null,CUR=[[0,0],[0,0]],TGT=[[0,0],[0,0]],RAF=0;
+function aim(){
+var es=document.querySelectorAll("#eyes ellipse"),s=document.querySelector("svg.blob").getScreenCTM().a||1;
+es.forEach(function(e,n){var t;
+if(!PT)t=BASE;
+else{var r=e.getBoundingClientRect(),dx=PT.x-(r.left+r.width/2),dy=PT.y-(r.top+r.height/2),d=Math.hypot(dx,dy),m=Math.min(d/(110*s),1);
+t=d?[dx/d*m*11,dy/d*m*13-4]:[0,-4]}
+TGT[n]=t});
+if(!RAF)RAF=requestAnimationFrame(step)}
+function step(){
+RAF=0;var go=false,rm=matchMedia("(prefers-reduced-motion:reduce)").matches;
+CUR.forEach(function(c,n){var t=TGT[n],f=rm?1:.22;
+c[0]+=(t[0]-c[0])*f;c[1]+=(t[1]-c[1])*f;
+if(Math.abs(t[0]-c[0])>.05||Math.abs(t[1]-c[1])>.05)go=true;else{c[0]=t[0];c[1]=t[1]}
+document.getElementById(n?"p2":"p1").setAttribute("transform","translate("+c[0].toFixed(2)+" "+c[1].toFixed(2)+")")});
+if(go)RAF=requestAnimationFrame(step)}
+document.addEventListener("pointermove",function(e){PT={x:e.clientX,y:e.clientY};aim()});
+document.documentElement.addEventListener("mouseleave",function(){PT=null;aim()});
+window.addEventListener("scroll",function(){if(PT)aim()},{passive:true});
+function face(t){var f=FACE[t];document.getElementById("mo").setAttribute("d",f.m);document.getElementById("eyes").style.display=f.joy?"none":"";document.getElementById("joy").style.display=f.joy?"":"none";BASE=[f.x||0,f.y||0];if(!f.joy)aim()}
 var ME="";
 function val(id){return document.getElementById(id).value.trim()}
 function show(t){document.body.dataset.tab=t;document.getElementById("ht").textContent=HT[t];
